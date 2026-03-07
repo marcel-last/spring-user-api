@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user-api
+    username: dev
+    password: password123
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+
+  flyway:
+    clean-disabled: false
+
+  # More verbose logging in dev
+  jpa:
+    show-sql: true
+
+management:
+
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+  info:
+    build:
+      enabled: true
+    env:
+      enabled: true
+
+logging:
+  level:
+    com.mlast.userapi: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE

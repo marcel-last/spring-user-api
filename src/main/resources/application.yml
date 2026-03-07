@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: user-api
+
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  data:
+    web:
+      pageable:
+        max-page-size: 100
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: when_authorized
+
+info:
+  app:
+    name: User API
+    description: REST API for managing user accounts
+    java: ${java.version}
+
+server:
+  port: 8080
