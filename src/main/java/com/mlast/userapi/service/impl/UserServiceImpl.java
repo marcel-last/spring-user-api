@@ -67,6 +67,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<UserResponse> listUsersByRole(String role, Pageable pageable) {
+        User.Role userRole = User.Role.valueOf(role.toUpperCase());
+        return userRepository.findByRole(userRole, pageable)
+                .map(userMapper::toResponse);
+    }
+
+    @Override
+    public Page<UserResponse> listUsersByEnabled(boolean enabled, Pageable pageable) {
+        return userRepository.findByEnabled(enabled, pageable)
+                .map(userMapper::toResponse);
+    }
+
+    @Override
     public Page<UserResponse> searchUsers(String query, Pageable pageable) {
         return userRepository.search(query, pageable)
                 .map(userMapper::toResponse);

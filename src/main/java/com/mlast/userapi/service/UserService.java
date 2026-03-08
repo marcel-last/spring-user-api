@@ -18,6 +18,10 @@ public interface UserService {
 
     Page<UserResponse> listUsers(Pageable pageable);
 
+    Page<UserResponse> listUsersByEnabled(boolean enabled, Pageable pageable);
+
+    Page<UserResponse> listUsersByRole(String role, Pageable pageable);
+
     Page<UserResponse> searchUsers(String query, Pageable pageable);
 
     UserResponse updateUser(Long id, UpdateUserRequest request);

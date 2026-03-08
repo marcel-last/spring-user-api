@@ -57,15 +57,23 @@ public class UserController {
     }
 
     /**
-     * GET /api/v1/users — List users (paginated) or search by query.
+     * GET /api/v1/users — List users (paginated), optionally filtered by enabled status or search query.
      */
     @GetMapping
     public Page<UserResponse> listUsers(
             @RequestParam(required = false) String search,
+            @RequestParam(required = false) Boolean enabled,
+            @RequestParam(required = false) String role,
             @PageableDefault(size = 20, sort = "id") Pageable pageable) {
 
         if (search != null && !search.isBlank()) {
             return userService.searchUsers(search.strip(), pageable);
+        }
+        if (enabled != null) {
+            return userService.listUsersByEnabled(enabled, pageable);
+        }
+        if (role != null && !role.isBlank()) {
+            return userService.listUsersByRole(role.strip(), pageable);
         }
         return userService.listUsers(pageable);
     }
@@ -98,11 +106,16 @@ public class UserController {
         userService.enableUser(id, enabled);
     }
 
+    /**
+     * GET /api/v1/users/export — Download a CSV list of all users in the database (DEBUG)
+     */
     @GetMapping("/export")
     @PreAuthorize("hasRole('ADMIN')")
     public void exportUsers(HttpServletResponse response) throws IOException {
+        String timestamp = java.time.LocalDateTime.now()
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HHmmss.SSS"));
         response.setContentType("text/csv");
-        response.setHeader("Content-Disposition", "attachment; filename=users.csv");
+        response.setHeader("Content-Disposition", "attachment; filename=users_" + timestamp + ".csv");
         userService.exportUsers(response.getWriter());
     }
 }

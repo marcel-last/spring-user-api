@@ -55,11 +55,13 @@ http://localhost:8080/swagger-ui/index.html
 | `POST` | `/api/v1/users` | Create a new user |
 | `GET` | `/api/v1/users` | List users (paginated) |
 | `GET` | `/api/v1/users?search=` | Search users by name or email |
+| `GET` | `/api/v1/users?enabled=true\|false` | Filter users by enabled status |
+| `GET` | `/api/v1/users?role=USER\|ADMIN` | Filter users by role |
 | `GET` | `/api/v1/users/{id}` | Get a user by ID |
 | `PUT` | `/api/v1/users/{id}` | Update a user |
 | `DELETE` | `/api/v1/users/{id}` | Delete a user |
 | `PATCH` | `/api/v1/users/{id}/enable` | Enable or disable a user account |
-| `GET` | `/api/v1/users/export` | Export all users as CSV (ADMIN only) |
+| `GET` | `/api/v1/users/export` | Export all users as a timestamped CSV (ADMIN only) |
 
 ### Pagination
 

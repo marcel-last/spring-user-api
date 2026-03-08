@@ -22,4 +22,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
          + "LOWER(u.lastName)  LIKE LOWER(CONCAT('%', :query, '%')) OR "
          + "LOWER(u.email)     LIKE LOWER(CONCAT('%', :query, '%'))")
     Page<User> search(@Param("query") String query, Pageable pageable);
+
+    Page<User> findByEnabled(boolean enabled, Pageable pageable);
+
+    Page<User> findByRole(User.Role role, Pageable pageable);
 }
